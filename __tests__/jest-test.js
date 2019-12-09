@@ -1,4 +1,4 @@
-const { openBrowser, write, closeBrowser, goto, press, text, focus, inputField, toRightOf } = require('taiko');
+const { openBrowser, write, closeBrowser, goto, press, text, focus, inputField, toRightOf, intercept } = require('taiko');
 
 describe('Getting Started with Jest and Taiko', () => {
 
@@ -8,18 +8,19 @@ describe('Getting Started with Jest and Taiko', () => {
 
     describe('Search Taiko Repository', () => {
 
-        test('Goto getgauge github page', async () => {
-            await goto('https://github.com/getgauge');
+        test('Go to trendyol.com', async () => {
+            await intercept("https://www.trendyol.com/api/home/banners?systemName=HomeIndex&position=right&cssClass=bannerItem%20homepage-banner-item&isMillaboutique=False");
+            await goto("https://www.trendyol.com/");
         });
 
-        test('Search for "Taiko"', async () => {
-            await focus(inputField(toRightOf('Pricing')))
-            await write('Taiko');
-            await press('Enter');
+        test('Search for "Erkek Saat"', async () => {
+            await click("Erkek");
+            await write("Erkek Saat", into(textBox({placeholder: "Aradığınız ürün veya markayı yazınız"})));
+            await press("Enter");
         });
 
-        test('Page contains "getgauge/taiko"', async () => {
-            await expect(text('getgauge/taiko').exists()).toBeTruthy();
+        test('Check list items', async () => {
+            await listItem(below('Erkek Saat')).exists();
         });
 
     });
